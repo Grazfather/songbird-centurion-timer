@@ -1,0 +1,15 @@
+<!ENTITY centurion-timer.menuitem.label "Start Centurion">
+<!ENTITY centurion-timer.menuitem.accesskey "C">
+<!ENTITY centurion-timer.game.game1 "Centurion">
+<!ENTITY centurion-timer.game.game2 "Power Hour">
+<!ENTITY centurion-timer.game.game3 "Warmup">
+<!ENTITY centurion-timer.game.game4 "Rush">
+<!ENTITY centurion-timer.game.custom "Custom">
+<!ENTITY centurion-timer.pane.players "Number of players:">
+<!ENTITY centurion-timer.pane.duration "Game duration (mins):">
+<!ENTITY centurion-timer.pane.frequency "Shot frequency (secs):">
+<!ENTITY centurion-timer.pane.consumed "Alcohol consumed (oz.):">
+<!ENTITY centurion-timer.pane.start "Start!">
+<!ENTITY centurion-timer.pane.pause "Pause">
+<!ENTITY centurion-timer.pane.stop "Give up">
+<!ENTITY centurion-timer.pane.extend "Extend!">
