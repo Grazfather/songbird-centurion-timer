@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://songbird/content/bindings/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://songbird/skin/songbird.css" type="text/css" title="Skin"?>
+
+<?xml-stylesheet href="chrome://centurion-timer/skin/pane.css" type="text/css"?>
+
+<!DOCTYPE page SYSTEM "chrome://centurion-timer/locale/overlay.dtd">
+<page id="centurion-timer-pane" title=""
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript" src="pane.js"/>
+	<box orient="vertical" align="center">
+		<box orient="horizontal">
+			<box>
+			  <radiogroup>
+				<radio id="game1" label="&centurion-timer.game.game1;" selected="true"/>
+				<radio id="game2" label="&centurion-timer.game.game2;"/>
+				<radio id="game3" label="&centurion-timer.game.game3;"/>
+				<radio id="game4" label="&centurion-timer.game.game4;"/>
+				<radio id="customGame" label="&centurion-timer.game.custom;"/>
+			  </radiogroup> 
+			</box>
+			<box orient="vertical">
+				<hbox>
+					<label value="&centurion-timer.pane.players;" control="players-box"/>
+					<spacer flex="1"/>
+					<textbox type="number" id="players-box" style="width:4em" value="1" min="1"/>
+				</hbox>
+				<hbox>
+					<label value="&centurion-timer.pane.duration;" control="duration-box"/>
+					<spacer flex="1"/>
+					<textbox type="number" id="duration-box" style="width:4em" value="100"/>
+				</hbox>
+				<hbox>
+					<label value="&centurion-timer.pane.frequency;" control="frequency-box" selected="true"/>
+					<spacer flex="1"/>
+					<textbox type="number" id="freq-box" style="width:4em" value="60" min="15"/>
+				</hbox>
+				<label value="&centurion-timer.pane.consumed; 0"/>
+			</box>
+			<box orient="vertical">
+				<listbox id="playlist-select" style="width:12em" rows="5">
+					<listitem value="0" label="Entire Library"/>
+				</listbox>
+			</box>
+		</box>
+		<box flex="1">
+			<button id="start-button" label="&centurion-timer.pane.start;" />
+			<button id="pause-button" label="&centurion-timer.pane.pause;" />
+			<button id="stop-button" label="&centurion-timer.pane.stop;" />
+			<button id="extend-button" label="&centurion-timer.pane.extend;" />
+		</box>
+	</box>
+</page>
