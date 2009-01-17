@@ -5,11 +5,5 @@ skin    centurion-timer  classic/1.0 chrome/skin/
 
 overlay chrome://songbird/content/xul/layoutWithBrowserOverlay.xul chrome://centurion-timer/content/scripts-overlay.xul
 
-overlay chrome://songbird/content/xul/layoutWithBrowserOverlay.xul chrome://centurion-timer/content/menu-overlay.xul
 
-
-overlay chrome://songbird/content/xul/layoutWithBrowserOverlay.xul chrome://centurion-timer/content/toolbar-overlay.xul
-
-
-overlay chrome://songbird/content/xul/layoutWithBrowserOverlay.xul chrome://centurion-timer/content/commands-overlay.xul
 

@@ -12,15 +12,13 @@
 	<script type="application/x-javascript" src="pane.js"/>
 	<box orient="vertical" align="center">
 		<box orient="horizontal">
-			<box>
-			  <radiogroup>
+			<radiogroup>
 				<radio id="game1" label="&centurion-timer.game.game1;" selected="true"/>
 				<radio id="game2" label="&centurion-timer.game.game2;"/>
 				<radio id="game3" label="&centurion-timer.game.game3;"/>
 				<radio id="game4" label="&centurion-timer.game.game4;"/>
 				<radio id="customGame" label="&centurion-timer.game.custom;"/>
-			  </radiogroup> 
-			</box>
+			</radiogroup> 
 			<box orient="vertical">
 				<hbox>
 					<label value="&centurion-timer.pane.players;" control="players-box"/>
@@ -41,7 +39,7 @@
 			</box>
 			<box orient="vertical">
 				<listbox id="playlist-select" style="width:12em" rows="5">
-					<listitem value="0" label="&centurion-timer.pane.library"/>
+					<listitem value="0" label="&centurion-timer.pane.library;"/>
 				</listbox>
 			</box>
 		</box>
