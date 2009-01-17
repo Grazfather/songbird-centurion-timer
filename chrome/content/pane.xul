@@ -30,26 +30,26 @@
 				<hbox>
 					<label value="&centurion-timer.pane.duration;" control="duration-box"/>
 					<spacer flex="1"/>
-					<textbox type="number" id="duration-box" style="width:4em" value="100"/>
+					<textbox type="number" id="duration-box" disabled="true" style="width:4em" value="100"/>
 				</hbox>
 				<hbox>
 					<label value="&centurion-timer.pane.frequency;" control="frequency-box" selected="true"/>
 					<spacer flex="1"/>
-					<textbox type="number" id="freq-box" style="width:4em" value="60" min="15"/>
+					<textbox type="number" id="frequency-box" disabled="true" style="width:4em" value="60" min="15"/>
 				</hbox>
 				<label value="&centurion-timer.pane.consumed; 0"/>
 			</box>
 			<box orient="vertical">
 				<listbox id="playlist-select" style="width:12em" rows="5">
-					<listitem value="0" label="Entire Library"/>
+					<listitem value="0" label="&centurion-timer.pane.library"/>
 				</listbox>
 			</box>
 		</box>
 		<box flex="1">
 			<button id="start-button" label="&centurion-timer.pane.start;" />
-			<button id="pause-button" label="&centurion-timer.pane.pause;" />
-			<button id="stop-button" label="&centurion-timer.pane.stop;" />
-			<button id="extend-button" label="&centurion-timer.pane.extend;" />
+			<button id="pause-button" label="&centurion-timer.pane.pause;" disabled="true" />
+			<button id="stop-button" label="&centurion-timer.pane.stop;" disabled="true" />
+			<button id="extend-button" label="&centurion-timer.pane.extend;" disabled="true"/>
 		</box>
 	</box>
 </page>

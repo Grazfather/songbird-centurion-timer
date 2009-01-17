@@ -9,7 +9,9 @@
 <!ENTITY centurion-timer.pane.duration "Game duration (mins):">
 <!ENTITY centurion-timer.pane.frequency "Shot frequency (secs):">
 <!ENTITY centurion-timer.pane.consumed "Alcohol consumed (oz.):">
+<!ENTITY centurion-timer.pane.library "Entire Library">
 <!ENTITY centurion-timer.pane.start "Start!">
+<!ENTITY centurion-timer.pane.continue "Go!">
 <!ENTITY centurion-timer.pane.pause "Pause">
 <!ENTITY centurion-timer.pane.stop "Give up">
 <!ENTITY centurion-timer.pane.extend "Extend!">
