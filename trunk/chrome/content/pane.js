@@ -1,11 +1,29 @@
+/**
+ * Centurion Timer
+ * Created by: Graziano Misuraca
+ * e-mail: grazfather@gmail.com
+ * 
+ * pane.js: Handles interface interaction and game properties.
+ */
+
+// Make sure we have the javascript modules we're going to use  
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+var Cu = Components.utils;
+var Cr = Components.results;
+
+if (!window.SBProperties)   
+  Cu.import("resource://app/jsmodules/sbProperties.jsm");  
+if (!window.LibraryUtils)   
+  Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");  
+
 
 // Make a namespace.
 if (typeof CenturionTimer == 'undefined') {
   var CenturionTimer = {};
 }
 
-function Game()
-{
+function Game() {
 	this.players;
 	this.duration;
 	this.frequency;
@@ -13,68 +31,74 @@ function Game()
 	this.started = false;
 	this.consumed = 0;
 	this.paused = false;
-	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
-						.getService(Components.interfaces.sbIMediacoreManager); 
+	this.timer;
+	this.mm;
+
 }
-//methods for our Student class
-Game.prototype.setup = function(players, duration, frequency, playlist)
-{
+//methods for our Game class
+Game.prototype.setup = function(players, duration, frequency, playlistguid) {
 	this.players = players;
 	this.duration = duration;
 	this.frequency = frequency;
-	if (!playlist)
+	var mm = Cc["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
+			.getService(Components.interfaces.sbIMediacoreManager);
+			mm.playbackControl.play();
+	if (!playlistguid)
 	{
 		this.playlist = 0;
 	}
 	else
 	{
-		this.playlist = playlist;
+		this.playlist = playlistguid;
 	}
 }
 
-Game.prototype.start = function()
-{
+Game.prototype.start = function() {
 	this.started = true;
 	alert(this.players+" "+this.duration+" "+this.frequency+" "+this.playlist);
+	//this.timer = window.setInterval(this.drink, 1000);
+	//this.mm.playbackControl.start();
 }
 
-Game.prototype.pause = function()
-{
+Game.prototype.pause = function() {
 	this.paused = true;
+	this.mm.playbackControl.pause();
 	alert("pause");
 }
 
-Game.prototype.resume = function()
-{
+Game.prototype.resume = function() {
 	this.paused = false;
 	alert("resume");
 }
 
-Game.prototype.stop = function()
-{
+Game.prototype.stop = function() {
+	this.mm.playbackControl.stop()
 	alert("stop");
 }
-Game.prototype.extend = function()
-{
+Game.prototype.extend = function() {
 	alert("extend");
 }
 
-Game.prototype.inProgress = function()
-{
+Game.prototype.inProgress = function() {
 	return (this.started != 0);
 }
 
-Game.prototype.isPaused = function()
-{
+Game.prototype.isPaused = function() {
 	return (this.paused != 0);
 }
 
+Game.prototype.drink = function() {
+	if (this.mm.position >= this.frequency)
+	{
+		this.consumed += this.players;
+		this.mm.playbackControl.next();
+	}
+}
 
 /**
  * Controller for pane.xul
  */
 CenturionTimer.PaneController = {
-
 
   /**
    * Called when the pane is instantiated
@@ -99,8 +123,8 @@ CenturionTimer.PaneController = {
 	this._extendButton = document.getElementById("extend-button");
     this._extendButton.addEventListener("command", 
          function() { controller.extendGame(); }, false);
+		 
 	// Hook up the radio buttons
-	
 	this._game1 = document.getElementById("game1");
     this._game1.addEventListener("command", 
          function() { controller.setGame(1); }, false);
@@ -117,6 +141,7 @@ CenturionTimer.PaneController = {
     this._customGame.addEventListener("command", 
          function() { controller.setGame(0); }, false);
 		 
+	// Default game settings
 	this.defaultGames = new Array(4);
 	this.defaultGames[0] = [100, 60];
 	this.defaultGames[1] = [60, 60];
@@ -124,12 +149,74 @@ CenturionTimer.PaneController = {
 	this.defaultGames[3] = [20, 30];
 	
 	//Load up playlists
-	var pls = document.getElementById("playlist-select");
-	var pl = document.createElement("listitem");
-	pl.setAttribute("value", 1);
-	pl.setAttribute("label", "PL1");
-	pls.appendChild(pl);
-  },
+	controller.playlistHandling();
+	},
+	
+	// Taken from MorningPeeps by Yves Van Goethem
+	playlistHandling : function() {
+        var that = this;
+        var playlists = [];
+        var bt_shuffle = document.getElementById('shuffle-check');
+        var menulist = document.getElementById('playlist-select');
+	
+		(getSongbirdPlaylists = function() {
+			var propArray = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"]
+						 .createInstance(Ci.sbIMutablePropertyArray);
+			propArray.appendProperty(SBProperties.isList, "1"); // Is a playlist
+			propArray.appendProperty(SBProperties.hidden, "0"); // Isn't hidden
+			var libraryItems = LibraryUtils.mainLibrary.getItemsByProperties(propArray);
+			var enumerator = libraryItems.enumerate();
+			var i = 0;
+			while (enumerator.hasMoreElements()) {
+				var enumeratorItem = enumerator.getNext();
+				var guid = enumeratorItem.toString().substring(17, 53);
+				var item = LibraryUtils.mainLibrary.getMediaItem(guid);
+				playlists.push(item.name+'::x0::'+guid);
+				i++;
+			}
+		})();
+		
+		(setPlaylists = function() {
+            playlists  = playlists.toString().split(',');
+            var labels = [];
+            var guids  = [];
+            var selected = null;
+            var createMenuItem = function(label, guid, param) {
+                var menuitem = document.createElement('listitem');
+                menuitem.setAttribute('label', label);
+                menuitem.setAttribute('value', guid);
+                menulist.appendChild(menuitem);
+                if (param) {
+                    selected = true;
+                    menulist.parentNode.selectedIndex = param;
+                }
+            };
+            for (i = 0; i < playlists.length; i++) {
+                playlist = playlists[i].split('::x0::');
+                labels.push(playlist[0]);
+                guids.push(playlist[1]);
+            }
+            for (i = 0; i < labels.length; i++) {
+                if (i == 0) {
+                    // Do nothing
+                }
+                else if (that._status 
+                && guids[i].toString() == that._playlistOptions.toString()) {
+                    createMenuItem(labels[i], guids[i], i);                    
+                }
+                else {
+                    createMenuItem(labels[i], guids[i]);
+                }
+            }
+            if (!selected) {
+                menulist.parentNode.selectedIndex = 0;
+                //bt_shuffle.setAttribute('disabled', true);
+                selected = null;
+            }    
+            
+        })();
+    },
+	
   
   /**
    * Called when the pane is about to close
@@ -137,10 +224,10 @@ CenturionTimer.PaneController = {
   onUnLoad: function() {
     this._initialized = false;
   },
-    /**
+   
+   /**
    * Start the game using the defined settings
    */
-   
   startGame: function() {
 	if (this._game.inProgress() == 0 ) // if the game hasn't started yet.
 	{
@@ -198,15 +285,12 @@ CenturionTimer.PaneController = {
 	this._game.extend();
   },
   
-  
   setGame: function(game) {
     if (game != 0) {
 		document.getElementById("duration-box").disabled="true";
 		document.getElementById("frequency-box").disabled="true";
 		document.getElementById("duration-box").value = this.defaultGames[(game-1)][0];
 		document.getElementById("frequency-box").value = this.defaultGames[(game-1)][1];
-		//document.getElementById("duration-box").setAttribute("value",this.defaultGames[(game-1)][0]);
-		//document.getElementById("frequency-box").setAttribute("value",this.defaultGames[(game-1)][1]);
 
 	}
 	else // custom game selected
@@ -215,8 +299,8 @@ CenturionTimer.PaneController = {
 		document.getElementById("frequency-box").setAttribute("disabled","false");
 	}
 
-  }
-  
+  },
+    
 };
 
 window.addEventListener("load", function(e) { CenturionTimer.PaneController.onLoad(e); }, false);

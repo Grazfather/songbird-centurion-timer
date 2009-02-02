@@ -9,7 +9,7 @@
 <!DOCTYPE page SYSTEM "chrome://centurion-timer/locale/overlay.dtd">
 <page id="centurion-timer-pane" title=""
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="pane.js"/>
+	<script src="pane.js"/>
 	<box orient="vertical" align="center">
 		<box orient="horizontal">
 			<radiogroup>
@@ -38,9 +38,10 @@
 				<label value="&centurion-timer.pane.consumed; 0"/>
 			</box>
 			<box orient="vertical">
-				<listbox id="playlist-select" style="width:12em" rows="5">
+				<listbox id="playlist-select" style="width:12em" rows="4">
 					<listitem value="0" label="&centurion-timer.pane.library;"/>
 				</listbox>
+				<checkbox id="shuffle-check" label="&centurion-timer.pane.shuffle;" checked="true"/>
 			</box>
 		</box>
 		<box flex="1">

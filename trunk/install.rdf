@@ -19,19 +19,13 @@
       </Description>
     </em:targetApplication>
 
-
-
-
-
-    <!-- Register a pane to be displayed below the service sidebar.
-         See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes -->
     <songbird:displayPane>
       <Description>
         <songbird:contentTitle>Centurion Timer</songbird:contentTitle>
         <songbird:contentUrl>chrome://centurion-timer/content/pane.xul</songbird:contentUrl>
         <songbird:contentIcon>chrome://centurion-timer/skin/pane-icon.png</songbird:contentIcon>
         <songbird:defaultWidth>200</songbird:defaultWidth>
-        <songbird:defaultHeight>130</songbird:defaultHeight>
+        <songbird:defaultHeight>150</songbird:defaultHeight>
         <songbird:suggestedContentGroups>contentpane</songbird:suggestedContentGroups>
         <songbird:showOnInstall>true</songbird:showOnInstall>
       </Description>
