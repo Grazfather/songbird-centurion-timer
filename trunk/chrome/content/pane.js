@@ -24,7 +24,8 @@ if (typeof CenturionTimer == 'undefined') {
 }
 
 function Game() {
-	this.players;
+	this.parent = null;
+	this.players = 0;
 	this.duration;
 	this.frequency;
 	this.playlist;
@@ -40,8 +41,9 @@ function Game() {
 
 }
 //methods for our Game class
-Game.prototype.setup = function(players, duration, frequency, playlistguid, shuffle) {
-	this.players = players;
+Game.prototype.setup = function(parent, players, duration, frequency, playlistguid, shuffle) {
+	this.parent = parent;
+	this.players = parseInt(players);
 	this.duration = duration;
 	this.frequency = frequency;
 	this.mm = Cc["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
@@ -52,6 +54,7 @@ Game.prototype.setup = function(players, duration, frequency, playlistguid, shuf
 		this.playlist = 0;
 		this.media = LibraryUtils.mainLibrary;
 		this.mediaview = this.media.createView();
+		shuffle = true;
 	}
 	else
 	{
@@ -113,6 +116,7 @@ Game.prototype.drink = function() {
 	if (this.mm.playbackControl.position >= (this.frequency*1000))
 	{
 		this.consumed += this.players;
+		this.parent.updateConsumed(this.consumed);
 		this.preindex = this.index;
 		if (this.shuffle)
 		{
@@ -267,7 +271,8 @@ CenturionTimer.PaneController = {
 	if (this._game.inProgress() == 0 ) // if the game hasn't started yet.
 	{
 	alert("new game");
-		this._game.setup(document.getElementById("players-box").value,
+		this._game.setup(this,
+						 document.getElementById("players-box").value,
 						 document.getElementById("duration-box").value,
 						 document.getElementById("frequency-box").value,
 						 document.getElementById("playlist-select").value,
@@ -337,6 +342,10 @@ CenturionTimer.PaneController = {
 	}
 
   },
+  
+  updateConsumed: function(consumed) {
+	document.getElementById("consumed-text").setAttribute("value","Alcohol consumed (oz.): " + consumed);
+  }
     
 };
 
