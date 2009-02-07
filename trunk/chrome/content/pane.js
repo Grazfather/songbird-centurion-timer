@@ -33,31 +33,43 @@ function Game() {
 	this.paused = false;
 	this.timer;
 	this.mm;
+	this.mediaview;
+	this.shuffle = 0;
 
 }
 //methods for our Game class
-Game.prototype.setup = function(players, duration, frequency, playlistguid) {
+Game.prototype.setup = function(players, duration, frequency, playlistguid, shuffle) {
 	this.players = players;
 	this.duration = duration;
 	this.frequency = frequency;
-	var mm = Cc["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
+	this.mm = Cc["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
 			.getService(Components.interfaces.sbIMediacoreManager);
-			mm.playbackControl.play();
 	if (!playlistguid)
 	{
+	    alert("Nothing selected!");
 		this.playlist = 0;
+		this.media = LibraryUtils.mainLibrary;
+		this.mediaview = this.media.createView();
 	}
 	else
 	{
 		this.playlist = playlistguid;
+		this.media = LibraryUtils.mainLibrary.getMediaItem(this.playlist);
+		this.mediaview = this.media.createView();
+	}
+	
+	if (shuffle)
+	{
+		this.shuffle = parseInt(Math.random() * (this.mediaview.length - 1));  
 	}
 }
 
 Game.prototype.start = function() {
+	var self = this;
 	this.started = true;
 	alert(this.players+" "+this.duration+" "+this.frequency+" "+this.playlist);
-	//this.timer = window.setInterval(this.drink, 1000);
-	//this.mm.playbackControl.start();
+	this.timer = window.setInterval(function() { self.drink(); }, 1000);
+	this.mm.sequencer.playView(this.mediaview, 0);
 }
 
 Game.prototype.pause = function() {
@@ -68,11 +80,14 @@ Game.prototype.pause = function() {
 
 Game.prototype.resume = function() {
 	this.paused = false;
+	this.mm.playbackControl.play();
 	alert("resume");
 }
 
 Game.prototype.stop = function() {
+    this.started = false;
 	this.mm.playbackControl.stop()
+	window.clearInterval(this.timer);
 	alert("stop");
 }
 Game.prototype.extend = function() {
@@ -88,10 +103,10 @@ Game.prototype.isPaused = function() {
 }
 
 Game.prototype.drink = function() {
-	if (this.mm.position >= this.frequency)
+	if (this.mm.playbackControl.position >= (this.frequency*1000))
 	{
 		this.consumed += this.players;
-		this.mm.playbackControl.next();
+		this.mm.sequencer.next();
 	}
 }
 
@@ -234,7 +249,7 @@ CenturionTimer.PaneController = {
 		this._game.setup(document.getElementById("players-box").value,
 						 document.getElementById("duration-box").value,
 						 document.getElementById("frequency-box").value,
-						 document.getElementById("playlist-select").value);
+						 document.getElementById("playlist-select").value, 0);
 		this._game.start();
 		document.getElementById("start-button").setAttribute("disabled","true");
 		document.getElementById("pause-button").setAttribute("disabled","false");
