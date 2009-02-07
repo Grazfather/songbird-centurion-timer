@@ -34,7 +34,9 @@ function Game() {
 	this.timer;
 	this.mm;
 	this.mediaview;
-	this.shuffle = 0;
+	this.shuffle = false;
+	this.preindex = 0;
+	this.index = 0;
 
 }
 //methods for our Game class
@@ -44,7 +46,7 @@ Game.prototype.setup = function(players, duration, frequency, playlistguid, shuf
 	this.frequency = frequency;
 	this.mm = Cc["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
 			.getService(Components.interfaces.sbIMediacoreManager);
-	if (!playlistguid)
+	if (!playlistguid || playlistguid == 0)
 	{
 	    alert("Nothing selected!");
 		this.playlist = 0;
@@ -60,7 +62,15 @@ Game.prototype.setup = function(players, duration, frequency, playlistguid, shuf
 	
 	if (shuffle)
 	{
-		this.shuffle = parseInt(Math.random() * (this.mediaview.length - 1));  
+		this.shuffle = true;
+		this.index = parseInt(Math.random() * (this.mediaview.length - 1));
+		this.preindex = this.index;
+	}
+	else
+	{
+		this.shuffle = false;
+		this.index = 0;
+		this.preindex = 0;
 	}
 }
 
@@ -69,26 +79,23 @@ Game.prototype.start = function() {
 	this.started = true;
 	alert(this.players+" "+this.duration+" "+this.frequency+" "+this.playlist);
 	this.timer = window.setInterval(function() { self.drink(); }, 1000);
-	this.mm.sequencer.playView(this.mediaview, 0);
+	this.mm.sequencer.playView(this.mediaview, this.index);
 }
 
 Game.prototype.pause = function() {
 	this.paused = true;
 	this.mm.playbackControl.pause();
-	alert("pause");
 }
 
 Game.prototype.resume = function() {
 	this.paused = false;
 	this.mm.playbackControl.play();
-	alert("resume");
 }
 
 Game.prototype.stop = function() {
     this.started = false;
 	this.mm.playbackControl.stop()
 	window.clearInterval(this.timer);
-	alert("stop");
 }
 Game.prototype.extend = function() {
 	alert("extend");
@@ -106,7 +113,20 @@ Game.prototype.drink = function() {
 	if (this.mm.playbackControl.position >= (this.frequency*1000))
 	{
 		this.consumed += this.players;
-		this.mm.sequencer.next();
+		this.preindex = this.index;
+		if (this.shuffle)
+		{
+			while (this.index == this.preindex)
+			{
+				this.index = parseInt(Math.random() * (this.mediaview.length - 1));
+			}
+		}
+		else
+		{
+			this.preindex = this.index
+			this.index = ( this.index + 1 ) % this.mediaview.length
+		}
+		this.mm.sequencer.playView(this.mediaview, this.index);
 	}
 }
 
@@ -246,10 +266,12 @@ CenturionTimer.PaneController = {
   startGame: function() {
 	if (this._game.inProgress() == 0 ) // if the game hasn't started yet.
 	{
+	alert("new game");
 		this._game.setup(document.getElementById("players-box").value,
 						 document.getElementById("duration-box").value,
 						 document.getElementById("frequency-box").value,
-						 document.getElementById("playlist-select").value, 0);
+						 document.getElementById("playlist-select").value,
+						 document.getElementById("shuffle-check").checked);
 		this._game.start();
 		document.getElementById("start-button").setAttribute("disabled","true");
 		document.getElementById("pause-button").setAttribute("disabled","false");
