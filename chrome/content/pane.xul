@@ -35,7 +35,7 @@
 					<spacer flex="1"/>
 					<textbox type="number" id="frequency-box" disabled="true" style="width:4em" value="60" min="15"/>
 				</hbox>
-				<label value="&centurion-timer.pane.consumed; 0"/>
+				<label id="consumed-text" value="&centurion-timer.pane.consumed; 0"/>
 			</box>
 			<box orient="vertical">
 				<listbox id="playlist-select" style="width:12em" rows="4">
