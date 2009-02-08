@@ -4,7 +4,7 @@
 <!ENTITY centurion-timer.game.game4 "Rush">
 <!ENTITY centurion-timer.game.custom "Custom">
 <!ENTITY centurion-timer.pane.players "Number of players:">
-<!ENTITY centurion-timer.pane.duration "Game duration (mins):">
+<!ENTITY centurion-timer.pane.duration "Game duration (shots):">
 <!ENTITY centurion-timer.pane.frequency "Shot frequency (secs):">
 <!ENTITY centurion-timer.pane.consumed "Alcohol consumed (oz.):">
 <!ENTITY centurion-timer.pane.library "Entire Library">
