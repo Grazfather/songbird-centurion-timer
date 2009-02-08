@@ -2,14 +2,14 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#"
      xmlns:songbird="http://www.songbirdnest.com/2007/addon-metadata-rdf#">
   <Description about="urn:mozilla:install-manifest">
-    <em:id>{b8e37295-09bb-4ac7-acb7-de0515a51b81}</em:id>
+    <em:id>{3e69e709-8a12-2354-b16d-eb4cd4805f36}</em:id>
     <em:type>2</em:type>
     <em:name>Centurion Timer</em:name>
     <em:version>0.1.0</em:version>
     <em:creator>Graziano Misuraca</em:creator>
+	<em:iconURL>chrome://centurion-timer/skin/beer-icon.png</em:iconURL>
 
-
-    <em:description>Timer for your favorite drinking games!</em:description>
+    <em:description>Drinking game timer for Songbird</em:description>
 
     <em:targetApplication>
       <Description>
