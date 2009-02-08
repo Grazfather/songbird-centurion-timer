@@ -5,7 +5,7 @@
     <em:id>{b8e37295-09bb-4ac7-acb7-de0515a51b81}</em:id>
     <em:type>2</em:type>
     <em:name>Centurion Timer</em:name>
-    <em:version>0.0.1</em:version>
+    <em:version>0.1.0</em:version>
     <em:creator>Graziano Misuraca</em:creator>
 
 
@@ -15,7 +15,7 @@
       <Description>
         <em:id>songbird@songbirdnest.com</em:id>
         <em:minVersion>0.8.0pre</em:minVersion>
-        <em:maxVersion>1.1.0pre</em:maxVersion>
+        <em:maxVersion>1.1.1a</em:maxVersion>
       </Description>
     </em:targetApplication>
 
