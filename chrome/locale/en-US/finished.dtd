@@ -3,4 +3,6 @@
 <!ENTITY drank2a "shots between">
 <!ENTITY drank2b "shots by yourself in">
 <!ENTITY drank3 "people in">
-<!ENTITY drank4 "minutes!">
+<!ENTITY drank4a "minutes!">
+<!ENTITY drank4b "minutes and">
+<!ENTITY drank5 "seconds!">
