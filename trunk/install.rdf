@@ -5,7 +5,7 @@
     <em:id>{3e69e709-8a12-2354-b16d-eb4cd4805f36}</em:id>
     <em:type>2</em:type>
     <em:name>Centurion Timer</em:name>
-    <em:version>0.1.0</em:version>
+    <em:version>0.2.0</em:version>
     <em:creator>Graziano Misuraca</em:creator>
 	<em:iconURL>chrome://centurion-timer/skin/beer-icon.png</em:iconURL>
 
