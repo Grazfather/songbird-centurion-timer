@@ -12,7 +12,7 @@
 	<script src="pane.js"/>
 	<box orient="vertical" align="center">
 		<box orient="horizontal">
-			<radiogroup>
+			<radiogroup id="game-choose">
 				<radio id="game1" label="&centurion-timer.game.game1;" selected="true"/>
 				<radio id="game2" label="&centurion-timer.game.game2;"/>
 				<radio id="game3" label="&centurion-timer.game.game3;"/>
@@ -28,18 +28,18 @@
 				<hbox>
 					<label value="&centurion-timer.pane.duration;" control="duration-box"/>
 					<spacer flex="1"/>
-					<textbox type="number" id="duration-box" disabled="true" style="width:4em" value="100"/>
+					<textbox type="number" id="duration-box" disabled="true" style="width:4em" value="100" min="5" increment="5"/>
 				</hbox>
 				<hbox>
 					<label value="&centurion-timer.pane.frequency;" control="frequency-box" selected="true"/>
 					<spacer flex="1"/>
-					<textbox type="number" id="frequency-box" disabled="true" style="width:4em" value="60" min="15"/>
+					<textbox type="number" id="frequency-box" disabled="true" style="width:4em" value="60" min="15" increment="5"/>
 				</hbox>
 				<label id="consumed-text" value="&centurion-timer.pane.consumed; 0"/>
 			</box>
 			<box orient="vertical">
 				<listbox id="playlist-select" style="width:12em" rows="4">
-					<listitem value="0" label="&centurion-timer.pane.library;"/>
+					<listitem value="0" id="main-library" label="&centurion-timer.pane.library;"/>
 				</listbox>
 				<checkbox id="shuffle-check" label="&centurion-timer.pane.shuffle;" checked="true"/>
 			</box>
@@ -47,7 +47,7 @@
 		<box flex="1">
 			<button id="start-button" label="&centurion-timer.pane.start;" />
 			<button id="pause-button" label="&centurion-timer.pane.pause;" disabled="true" />
-			<button id="stop-button" label="&centurion-timer.pane.stop;" disabled="true" />
+			<button id="end-button" label="&centurion-timer.pane.stop;" disabled="true" />
 			<button id="extend-button" label="&centurion-timer.pane.extend;" disabled="true"/>
 		</box>
 	</box>

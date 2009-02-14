@@ -6,7 +6,7 @@
 
   <groupbox align="center" orient="horizontal">
     <vbox>
-      <text value="&complete;" style="font-weight: bold; font-size: x-large; align: center"/>
+      <text value="&complete;" style="font-weight: bold; font-size: x-large; align: center;"/>
 	  <separator class="groove"/>
 	  <text id="message-text" value=""/>
     </vbox>
@@ -16,9 +16,19 @@
 		function fillMessage()
 			{
 				if ( parseInt(window.arguments[0]) > 1 )
-					var compString = "&drank1; " + window.arguments[1] + " &drank2a; " + window.arguments[0] + " &drank3; " + window.arguments[2] + " &drank4;";
+					if (parseInt(window.arguments[3]) == 0)
+						var compString = "&drank1; " + window.arguments[1] + " &drank2a; " + window.arguments[0]
+						+ " &drank3; " + window.arguments[2] + " &drank4a;";
+					else
+						var compString = "&drank1; " + window.arguments[1] + " &drank2a; " + window.arguments[0]
+						+ " &drank3; " + window.arguments[2] + " &drank4b; " + window.arguments[3] + " &drank5;";
 				else
-					var compString = "&drank1; " + window.arguments[1] + " &drank2b; " + window.arguments[2] + " &drank4;";
+					if (parseInt(window.arguments[3]) == 0)
+						var compString = "&drank1; " + window.arguments[1] + " &drank2b; " + window.arguments[2]
+						+ " &drank4a;";
+					else
+						var compString = "&drank1; " + window.arguments[1] + " &drank2b; " + window.arguments[2]
+						+ " &drank4b; " + window.arguments[3] + " &drank5;";
 				document.getElementById("message-text").setAttribute("value",compString);
 				sizeToContent();
 			}
