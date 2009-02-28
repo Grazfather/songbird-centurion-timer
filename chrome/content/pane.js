@@ -301,146 +301,143 @@ CenturionTimer.PaneController = {
   /**
    * Called when the pane is about to close
    */
-  onUnLoad: function() {
-    this._initialized = false;
-  },
+	onUnLoad: function() {
+		this._initialized = false;
+	},
    
-   /**
-   * Start the game using the defined settings
-   */
-  startGame: function() {
-	if (this._game.inProgress() == 0 ) // if the game hasn't started yet.
-	{
-		//Register as a game observer
-		this._game.register(this);
-		
-		this._game.setup(this,
-						 document.getElementById("players-box").value,
-						 document.getElementById("duration-box").value,
-						 document.getElementById("frequency-box").value,
-						 document.getElementById("playlist-select").value,
-						 document.getElementById("shuffle-check").checked);
-		this._game.start();
-		document.getElementById("start-button").setAttribute("disabled","true");
-		document.getElementById("pause-button").setAttribute("disabled","false");
-		document.getElementById("end-button").setAttribute("disabled","false");
-		document.getElementById("extend-button").setAttribute("disabled","false");
-		document.getElementById("players-box").setAttribute("disabled","true");
-		document.getElementById("frequency-box").setAttribute("disabled","true");
-		document.getElementById("duration-box").setAttribute("disabled","true");
-		document.getElementById("game-choose").setAttribute("disabled","true");
-		document.getElementById("playlist-select").setAttribute("disabled","true");
-	}
-	else if (this._game.isPaused() == 1) // Game is started but paused
-	{
-		this._game.resume();
-	}
-	else
-	{
-		alert('oops');
-	}
-  },
+	/**
+	* Start the game using the defined settings
+	*/
+	startGame: function() {
+		if (this._game.inProgress() == 0 ) // if the game hasn't started yet.
+		{
+			//Register as a game observer
+			this._game.register(this);
+			
+			this._game.setup(this,
+							 document.getElementById("players-box").value,
+							 document.getElementById("duration-box").value,
+							 document.getElementById("frequency-box").value,
+							 document.getElementById("playlist-select").value,
+							 document.getElementById("shuffle-check").checked);
+			this._game.start();
+			document.getElementById("start-button").setAttribute("disabled","true");
+			document.getElementById("pause-button").setAttribute("disabled","false");
+			document.getElementById("end-button").setAttribute("disabled","false");
+			document.getElementById("extend-button").setAttribute("disabled","false");
+			document.getElementById("players-box").setAttribute("disabled","true");
+			document.getElementById("frequency-box").setAttribute("disabled","true");
+			document.getElementById("duration-box").setAttribute("disabled","true");
+			document.getElementById("game-choose").setAttribute("disabled","true");
+			document.getElementById("playlist-select").setAttribute("disabled","true");
+		}
+		else if (this._game.isPaused() == 1) // Game is started but paused
+		{
+			this._game.resume();
+		}
+		else
+		{
+			alert('oops');
+		}
+	},
   
   /**
    * Pause the timer, pause the music
    */
-  pauseGame: function() {
-	if (this._game.isPaused() == 0) // Game is started and running
-	{
-		this._game.pause();
-		document.getElementById("start-button").setAttribute("disabled","false");
-	}
-	else // Game is paused
-	{
-		this._game.resume();
-		document.getElementById("start-button").setAttribute("disabled","true");
-	}
-  },
-  
-  /**
-   * Game over early
-   */
-  stopGame: function() {
-  	//Deregister as a game observer
-	this._game.unregister(this);
-  
-	this._game.stop();
-	document.getElementById("start-button").setAttribute("disabled","false");
-	document.getElementById("pause-button").setAttribute("disabled","true");
-	document.getElementById("end-button").setAttribute("disabled","true");
-	document.getElementById("extend-button").setAttribute("disabled","true");
-	document.getElementById("players-box").removeAttribute("disabled");
-	document.getElementById("game-choose").removeAttribute("disabled");
-	document.getElementById("playlist-select").removeAttribute("disabled");
-	if ( document.getElementById("customGame").selected == true ) {
-		document.getElementById("frequency-box").removeAttribute("disabled");
-		document.getElementById("duration-box").removeAttribute("disabled");
-	}
-
+	pauseGame: function() {
+		if (this._game.isPaused() == 0) // Game is started and running
+		{
+			this._game.pause();
+			document.getElementById("start-button").setAttribute("disabled","false");
+		}
+		else // Game is paused
+		{
+			this._game.resume();
+			document.getElementById("start-button").setAttribute("disabled","true");
+		}
 	},
   
-  finishGame: function(players, consumed, duration, frequency) {
-	this.stopGame();
-	time = (duration*frequency/60);
-	timeminutes = parseInt(duration*frequency/60);
-	timeseconds = (time-timeminutes)*60;
-	window.openDialog('finished.xul', '', 'chrome=yes, centerscreen=yes, resizable=no', players, consumed, timeminutes, timeseconds);
-  },
+	/**
+	 * Game over early
+	 */
+	stopGame: function() {
+		//Deregister as a game observer
+		this._game.unregister(this);
+	  
+		this._game.stop();
+		document.getElementById("start-button").setAttribute("disabled","false");
+		document.getElementById("pause-button").setAttribute("disabled","true");
+		document.getElementById("end-button").setAttribute("disabled","true");
+		document.getElementById("extend-button").setAttribute("disabled","true");
+		document.getElementById("players-box").removeAttribute("disabled");
+		document.getElementById("game-choose").removeAttribute("disabled");
+		document.getElementById("playlist-select").removeAttribute("disabled");
+		if ( document.getElementById("customGame").selected == true ) {
+			document.getElementById("frequency-box").removeAttribute("disabled");
+			document.getElementById("duration-box").removeAttribute("disabled");
+		}
+	},
   
-  /**
-   * Add 15 minutes or so
-   */
-  extendGame: function() {
-	alert("Adding 15 more shots!");
-	document.getElementById("duration-box").value = parseInt(this._game.duration)+15;
-	this._game.extend();
-  },
+	finishGame: function(players, consumed, duration, frequency) {
+		this.stopGame();
+		time = (duration*frequency/60);
+		timeminutes = parseInt(duration*frequency/60);
+		timeseconds = (time-timeminutes)*60;
+		window.openDialog('finished.xul', '', 'chrome=yes, centerscreen=yes, resizable=no', players, consumed, timeminutes, timeseconds);
+	},
   
-  setGame: function(game) {
-    if (game != 0) {
-		document.getElementById("duration-box").disabled="true";
-		document.getElementById("frequency-box").disabled="true";
-		document.getElementById("duration-box").value = this.defaultGames[(game-1)][0];
-		document.getElementById("frequency-box").value = this.defaultGames[(game-1)][1];
-
+	/**
+	 * Add 15 minutes or so
+	 */
+	extendGame: function() {
+		alert("Adding 15 more shots!");
+		document.getElementById("duration-box").value = parseInt(this._game.duration)+15;
+		this._game.extend();
+	},
+  
+	setGame: function(game) {
+		if (game != 0) {
+			document.getElementById("duration-box").disabled="true";
+			document.getElementById("frequency-box").disabled="true";
+			document.getElementById("duration-box").value = this.defaultGames[(game-1)][0];
+			document.getElementById("frequency-box").value = this.defaultGames[(game-1)][1];
+		}
+		else // custom game selected
+		{
+			document.getElementById("duration-box").removeAttribute("disabled");
+			document.getElementById("frequency-box").removeAttribute("disabled");
+		}
+	},
+  
+	updateConsumed: function(consumed) {
+		document.getElementById("consumed-text").setAttribute("value","Alcohol consumed (oz.): " + consumed);
+	},
+  
+	notify: function(msg, data) {
+		switch(msg)
+		{
+			case UPDATE_CONSUMED:
+			{
+				this.updateConsumed(data);
+				break;
+			}
+			case FINISH_GAME:
+			{
+				this.finishGame(this._game.players, this._game.consumed, this._game.duration, this._game.frequency);
+				break;
+			}
+			case FORCE_SHUFFLE:
+			{
+				document.getElementById("shuffle-check").setAttribute("checked","true");
+				break;
+			}
+			default:
+			{
+				alert("Bad notification");
+				break;
+			}
+		}
 	}
-	else // custom game selected
-	{
-		document.getElementById("duration-box").removeAttribute("disabled");
-		document.getElementById("frequency-box").removeAttribute("disabled");
-	}
-
-  },
-  
-  updateConsumed: function(consumed) {
-	document.getElementById("consumed-text").setAttribute("value","Alcohol consumed (oz.): " + consumed);
-  },
-  
-  notify: function(msg, data) {
-	switch(msg)
-	{
-		case UPDATE_CONSUMED:
-		{
-			this.updateConsumed(data);
-			break;
-		}
-		case FINISH_GAME:
-		{
-			this.finishGame(this._game.players, this._game.consumed, this._game.duration, this._game.frequency);
-			break;
-		}
-		case FORCE_SHUFFLE:
-		{
-			document.getElementById("shuffle-check").setAttribute("checked","true");
-			break;
-		}
-		default:
-		{
-			alert("Bad notification");
-			break;
-		}
-	}
-  }
     
 };
 

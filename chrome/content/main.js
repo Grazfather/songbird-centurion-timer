@@ -9,40 +9,36 @@ if (typeof CenturionTimer == 'undefined') {
  */
 CenturionTimer.Controller = {
 
-  /**
-   * Called when the window finishes loading
-   */
-  onLoad: function() {
+	/**
+	 * Called when the window finishes loading
+	 */
+	onLoad: function() {
+		// initialization code
+		this._initialized = true;
+		this._strings = document.getElementById("centurion-timer-strings");
+		
+		// Perform extra actions the first time the extension is run
+		if (Application.prefs.get("extensions.centurion-timer.firstrun").value == true) {
+		  Application.prefs.setValue("extensions.centurion-timer.firstrun", false);
+		  this._firstRunSetup();
+		}
 
-    // initialization code
-    this._initialized = true;
-    this._strings = document.getElementById("centurion-timer-strings");
-    
-    // Perform extra actions the first time the extension is run
-    if (Application.prefs.get("extensions.centurion-timer.firstrun").value) {
-      Application.prefs.setValue("extensions.centurion-timer.firstrun", false);
-      this._firstRunSetup();
-    }
+	},
 
-  },
-  
-
-  /**
-   * Called when the window is about to close
-   */
-  onUnLoad: function() {
-    this._initialized = false;
-  },
-  
-
-  /**
-   * Perform extra setup the first time the extension is run
-   */
-  _firstRunSetup : function() {
-	// Do nothing (yet)
-  },
-  
-      
+	/**
+	 * Called when the window is about to close
+	 */
+	onUnLoad: function() {
+		this._initialized = false;
+	},
+	  
+	/**
+	 * Perform extra setup the first time the extension is run
+	 */
+	_firstRunSetup : function() {
+		// Do nothing until weird bug is sorted out.
+		//window.openDialog('finished.xul', '', 'chrome=yes, centerscreen=yes, resizable=no', 1);
+	}, 
     
 };
 
