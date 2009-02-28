@@ -2,3 +2,5 @@
 <!ENTITY version "Version:">
 <!ENTITY createdBy "Created By:">
 <!ENTITY homepage "Home Page:">
+<!ENTITY comments "If you find any bugs/problems or you have any suggestions, please post them on the addon comment page">
+<!ENTITY comment "Comments">
